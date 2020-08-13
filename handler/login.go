@@ -78,7 +78,7 @@ func (h *Handler) Login(w http.ResponseWriter, r *http.Request) *Error {
 			Message:      err.Error(),
 			ResponseCode: http.StatusInternalServerError,
 		}
-		return e.Wrap("error creating cookie")
+		return e.Wrap("🍪 Error creating cookie")
 	}
 
 	http.SetCookie(w, cookie)

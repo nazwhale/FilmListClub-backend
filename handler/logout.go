@@ -24,7 +24,7 @@ func (h *Handler) Logout(w http.ResponseWriter, r *http.Request) *Error {
 			Message:      err.Error(),
 			ResponseCode: http.StatusBadRequest,
 		}
-		return e.Wrap("error decoding json body")
+		return e.Wrap("Error decoding json body")
 	}
 
 	switch {
@@ -37,18 +37,17 @@ func (h *Handler) Logout(w http.ResponseWriter, r *http.Request) *Error {
 
 	c, err := r.Cookie(auth.GetCookieNameToken())
 	if err != nil {
-		fmt.Println("cook:", c)
 		switch {
 		// If there's no cookie we're good, as we'd only delete it anyway
 		case err == http.ErrNoCookie:
-			fmt.Println("No cookie in the first place")
+			fmt.Println("🍪 No valid cookie in the request")
 			return nil
 		default:
 			e := &Error{
 				Message:      err.Error(),
 				ResponseCode: http.StatusBadRequest,
 			}
-			return e.Wrap("cookie err")
+			return e.Wrap("🍪 Error getting cookie from request")
 		}
 	}
 
@@ -60,7 +59,7 @@ func (h *Handler) Logout(w http.ResponseWriter, r *http.Request) *Error {
 
 	http.SetCookie(w, c)
 
-	fmt.Println("Set cookie with expiry of now", c)
+	fmt.Println("🍪 Set cookie with expiry of now", c)
 
 	return nil
 }

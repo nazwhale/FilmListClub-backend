@@ -31,7 +31,7 @@ func setupRoutes(handler *handler.Handler) {
 	http.HandleFunc("/signup", handleError(handler.SignUp))
 	http.HandleFunc("/login", handleError(handler.Login))
 	// TODO: is this a legit pattern? just using this route for withAuth and a nil handler
-	http.HandleFunc("/logged-in", handleError(withAuth(nil)))
+	http.HandleFunc("/logged-in", handleError(withAuth(handler.LoggedIn)))
 	http.HandleFunc("/logout", handleError(handler.Logout))
 	http.HandleFunc("/refresh", handleError(handler.RefreshToken))
 

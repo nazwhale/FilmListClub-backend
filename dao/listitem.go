@@ -7,10 +7,10 @@ import (
 )
 
 type ListItem struct {
-	ID        int
-	UserID    int
-	Title     string
-	CreatedAt time.Time
+	ID        int       `json:"id"`
+	UserID    int       `json:"user_id"`
+	Title     string    `json:"title"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 func (d dao) SaveListItem(item ListItem) error {

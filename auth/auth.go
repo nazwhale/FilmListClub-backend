@@ -11,7 +11,7 @@ import (
 var jwtKey = []byte("my_secret_key")
 
 const cookieNameToken = "token"
-const cookieExpiration = 5 * time.Minute
+const cookieExpiration = 25 * time.Minute
 
 type Claims struct {
 	Email string `json:"email"`
@@ -44,14 +44,6 @@ func GetNewCookie(email string) (*http.Cookie, error) {
 	}, nil
 }
 
-func GetOldCookie() *http.Cookie {
-	// To delete a cookie, we set the max age to 0
-	return &http.Cookie{
-		Name:   cookieNameToken,
-		MaxAge: 0,
-	}
-}
-
 func GetRefreshedCookie(claims *Claims) (*http.Cookie, error) {
 	expirationTime := time.Now().Add(cookieExpiration)
 
@@ -79,7 +71,7 @@ func ValidateRequest(r *http.Request) (*Claims, error) {
 	c, err := r.Cookie(cookieNameToken)
 	if err != nil {
 		if err == http.ErrNoCookie {
-			return nil, errors.New("no cookie")
+			return nil, errors.New("🍪 no cookie")
 		}
 
 		return nil, errors.New("could not validate request")
