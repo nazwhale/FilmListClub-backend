@@ -34,7 +34,14 @@ func (h *Handler) ReadListItemsForUser(w http.ResponseWriter, r *http.Request) *
 		return e.Wrap("error reading list items from db")
 	}
 
-	json.NewEncoder(w).Encode(items)
+	err = json.NewEncoder(w).Encode(items)
+	if err != nil {
+		e := &Error{
+			Message:      err.Error(),
+			ResponseCode: http.StatusInternalServerError,
+		}
+		return e.Wrap("Error json-encoding list items")
+	}
 
 	return nil
 }

@@ -83,5 +83,21 @@ func (h *Handler) Login(w http.ResponseWriter, r *http.Request) *Error {
 
 	http.SetCookie(w, cookie)
 
+	//// Return user object in response
+	//// TODO: Without hashed password? What's the pattern for this?
+	//rspUser := dao.User{
+	//	ID:    user.ID,
+	//	Email: user.Email,
+	//}
+
+	err = json.NewEncoder(w).Encode(user)
+	if err != nil {
+		e := &Error{
+			Message:      err.Error(),
+			ResponseCode: http.StatusInternalServerError,
+		}
+		return e.Wrap("Error json-encoding user")
+	}
+
 	return nil
 }

@@ -18,7 +18,6 @@ func IsEmailValid(e string) bool {
 }
 
 func IsIDValid(id int) bool {
-	fmt.Println(id)
 	if id <= 0 {
 		fmt.Println("id less than 0 ", id)
 		return false

@@ -10,8 +10,9 @@ import (
 var ErrNoUserExists = errors.New("no user exists with email")
 
 type User struct {
-	Email          string
-	HashedPassword string
+	ID             int    `json:"user_id"`
+	Email          string `json:"email"`
+	HashedPassword string `json:"-"` // We should never json-encode the password
 }
 
 func (d dao) SaveUser(user User) error {
@@ -36,12 +37,12 @@ RETURNING id`
 
 func (d dao) ReadUserByEmail(email string) (User, error) {
 	sqlStatement := `
-SELECT email, password from users
+SELECT id, email, password from users
 WHERE email=$1`
 
 	var user User
 	result := d.db.QueryRow(sqlStatement, email)
-	err := result.Scan(&user.Email, &user.HashedPassword)
+	err := result.Scan(&user.ID, &user.Email, &user.HashedPassword)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return User{}, ErrNoUserExists

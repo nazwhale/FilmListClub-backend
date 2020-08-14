@@ -38,9 +38,10 @@ func GetNewCookie(email string) (*http.Cookie, error) {
 	}
 
 	return &http.Cookie{
-		Name:    cookieNameToken,
-		Value:   token,
-		Expires: expirationTime,
+		Name:     cookieNameToken,
+		Value:    token,
+		Expires:  expirationTime,
+		SameSite: http.SameSiteStrictMode,
 	}, nil
 }
 
@@ -56,9 +57,10 @@ func GetRefreshedCookie(claims *Claims) (*http.Cookie, error) {
 	}
 
 	return &http.Cookie{
-		Name:    cookieNameToken,
-		Value:   token,
-		Expires: expirationTime,
+		Name:     cookieNameToken,
+		Value:    token,
+		Expires:  expirationTime,
+		SameSite: http.SameSiteStrictMode,
 	}, nil
 }
 
